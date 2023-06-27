@@ -3,7 +3,6 @@ import React from 'react';
 
 
 export default function ChooseAction() {
-    //<img src={require("./eos.gif")} alt="gif" style={{width: '20%', height: 'auto'}}/>
 
     return (
         <div className="App">
