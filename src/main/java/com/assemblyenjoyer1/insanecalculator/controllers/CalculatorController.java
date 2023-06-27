@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/calculator")
 @RequiredArgsConstructor
+@CrossOrigin
 public class CalculatorController {
 
     final private CalculatorService calculatorService;
