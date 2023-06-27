@@ -5,6 +5,8 @@ import com.assemblyenjoyer1.insanecalculator.models.Role;
 import com.assemblyenjoyer1.insanecalculator.models.User;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+
 @Service
 public class CalculatorService {
 
@@ -24,11 +26,15 @@ public class CalculatorService {
     private double calculatePrice(int distance, User user, double pricePerUnit) {
         Role role = user.getRole();
         if (role.equals(Role.ADMIN)) return 0.00;
+
         double finalPrice;
         double discount = (role.equals(Role.PREMIUM)) ? 10 : 0;
-        finalPrice = (distance * pricePerUnit) * (1-(discount/100));
+        finalPrice = (distance * pricePerUnit) * (1 - (discount / 100));
         addRide(user, distance, pricePerUnit);
-        return finalPrice;
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String formattedPrice = decimalFormat.format(finalPrice);
+        return Double.parseDouble(formattedPrice);
     }
 
     public double calculatePriceByTime(int time, User user){
