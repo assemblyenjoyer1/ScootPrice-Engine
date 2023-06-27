@@ -14,7 +14,7 @@ public class UserService {
     }
 
     public User getUserByUserID(int id){
-        return null;
+        return new User("Peter");
     }
 
 
