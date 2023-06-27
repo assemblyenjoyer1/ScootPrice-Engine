@@ -5,11 +5,6 @@ export default function CalculatePrice() {
 
     //___"Classes"___
 
-    type Genre = {
-        id: number;
-        name: string;
-    };
-
     type Song = {
         id: string;
         name: string;
@@ -32,59 +27,85 @@ export default function CalculatePrice() {
     };
 
     // ___VARIABLES___
-    const [genres, setGenres] = useState<Genre[]>([]); // initialize the state with an empty array
-    const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+    const [enteredUnit, setEnteredUnit] = useState<number | null>(null);
     const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
+    const [price, setPrice] = useState<number | null>(null);
     const [generatedPlaylist, setGeneratedPlaylist] = useState<Playlist | null>(null);
     const [errorMessage, setErrorMessage] = useState("");
 
 
-    //___GET GENRES___
-    useEffect(() => {
-        fetch('http://localhost:8080/api/user-story/genre')
-            .then((response) => response.json())
-            .then((data) => {
-                setGenres(data); // set the fetched data to the genres state
-            })
-            .catch((error) => {
-                console.error('Error fetching genres:', error);
-            });
-    }, []); // pass an empty array as second argument to execute the effect only once
-
     //___SEND POST___
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (selectedGenre !== null && selectedUnit !== null) {
+        if (enteredUnit !== null && selectedUnit === 0) {
             try {
-                const response = await fetch("http://localhost:8080/api/user-story/playlist", {
+                const response = await fetch("http://localhost:8080/api/calculator/price/time", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({  // compile json
-                        genreId: selectedGenre,
-                        amountOfSongs: selectedUnit,
+                        time: enteredUnit,
+                        userID: 1,
                     }),
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("Generated playlist:", data);
-                    setGeneratedPlaylist(data);
+                    console.log("Price:", data);
+                    setPrice(data);
                     setErrorMessage("");
                 } else if (response.status === 400) {
                     const message = await response.text();
                     setErrorMessage(message);
                 }
             } catch (error) {
-                console.error("Error generating playlist: ", error);
+                console.error("Error while calculating: ", error);
+            }
+        }
+        if (enteredUnit !== null && selectedUnit === 1) {
+            try {
+                const response = await fetch("http://localhost:8080/api/calculator/price/distance", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({  // compile json
+                        distance: enteredUnit,
+                        userID: 1,
+                    }),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Price:", data);
+                    setPrice(data);
+                    setErrorMessage("");
+                } else if (response.status === 400) {
+                    const message = await response.text();
+                    setErrorMessage(message);
+                }
+            } catch (error) {
+                console.error("Error while calculating: ", error);
             }
         }
     };
 
         return (
             <div className="App">
+                      <a href="/">
+        <img
+          src={require("./scooteq_mini.png")}
+          alt="Home"
+          style={{
+            width: "30px",
+            height: "30px",
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+          }}
+        />
+      </a>
             <div className="App-title">
-                <img src={require("./scooteq.png")} alt="png" style={{width: '40%', height: 'auto'}}/>
+                <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }}/>
             </div>
                 <h2 className="App-subtitle">Calculate the price</h2>
                 {generatedPlaylist ? (                              //when the playlist is generated...
