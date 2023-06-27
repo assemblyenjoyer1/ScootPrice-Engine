@@ -5,8 +5,6 @@ import com.assemblyenjoyer1.insanecalculator.models.Role;
 import com.assemblyenjoyer1.insanecalculator.models.User;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
-
 @Service
 public class CalculatorService {
 
@@ -32,9 +30,7 @@ public class CalculatorService {
         finalPrice = (distance * pricePerUnit) * (1 - (discount / 100));
         addRide(user, distance, pricePerUnit);
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.00");
-        String formattedPrice = decimalFormat.format(finalPrice);
-        return Double.parseDouble(formattedPrice);
+        return finalPrice;
     }
 
     public double calculatePriceByTime(int time, User user){
