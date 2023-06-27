@@ -15,13 +15,13 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
-    @PostMapping("/price")
+    @PostMapping("/price/distance")
     public double calculatePriceByDistance(@RequestParam int distance, @RequestParam int userID) {
-        return calculatorService.calculatePriceByDistance(distance, userService.getRoleByUserID(userID));
+        return calculatorService.calculatePriceByDistance(distance, userService.getUserByUserID(userID));
     }
 
-    @PostMapping("/price/")
+    @PostMapping("/price/time")
     public double calculatePriceByTime(@RequestParam int time, @RequestParam int userID) {
-        return calculatorService.calculatePriceByTime(time, userService.getRoleByUserID(userID));
+        return calculatorService.calculatePriceByTime(time, userService.getUserByUserID(userID));
     }
 }
