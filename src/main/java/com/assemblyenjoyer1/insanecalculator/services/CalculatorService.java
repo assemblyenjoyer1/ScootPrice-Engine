@@ -9,11 +9,11 @@ public class CalculatorService {
     static double pricePerKilometre = 0.10;
 
     public double calculatePrice(int distance, Role role){
-        if (role.level == 100) return 0.00;
-        var finalPrice = 0.00;
-        var discount = (role.level == 10) ? 10 : 0;
+        if (role.equals(Role.ADMIN)) return 0.00;
+        double finalPrice = 0.00;
+        double discount = (role.equals(Role.PREMIUM)) ? 10 : 0;
 
-        finalPrice = (distance * pricePerKilometre) * (100-(discount/100));
+        finalPrice = (distance * pricePerKilometre) * (1-(discount/100));
 
         return finalPrice;
     }
