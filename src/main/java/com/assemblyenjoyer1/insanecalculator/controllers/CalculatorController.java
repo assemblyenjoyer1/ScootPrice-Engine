@@ -2,10 +2,7 @@ package com.assemblyenjoyer1.insanecalculator.controllers;
 
 import com.assemblyenjoyer1.insanecalculator.services.CalculatorService;
 import com.assemblyenjoyer1.insanecalculator.services.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/calculator")
@@ -18,8 +15,13 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
-    @GetMapping("/price")
-    public double calculatePrice(@RequestParam int distance, @RequestParam int userID) {
-        return calculatorService.calculatePrice(distance, userService.getRoleByUserID(userID));
+    @PostMapping("/price")
+    public double calculatePriceByDistance(@RequestParam int distance, @RequestParam int userID) {
+        return calculatorService.calculatePriceByDistance(distance, userService.getRoleByUserID(userID));
+    }
+
+    @PostMapping("/price/")
+    public double calculatePriceByTime(@RequestParam int time, @RequestParam int userID) {
+        return calculatorService.calculatePriceByTime(time, userService.getRoleByUserID(userID));
     }
 }
