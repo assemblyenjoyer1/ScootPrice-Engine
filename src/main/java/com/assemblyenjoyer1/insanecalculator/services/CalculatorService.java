@@ -10,8 +10,8 @@ public class CalculatorService {
 
     final UserService userService;
 
-    static double pricePerKilometre = 0.10;
-    static double pricePerMinute = 0.50;
+    static double pricePerKilometre = 0.9;
+    static double pricePerMinute = 0.5;
 
     public CalculatorService(UserService userService) {
         this.userService = userService;
