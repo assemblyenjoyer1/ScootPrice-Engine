@@ -1,9 +1,13 @@
 package com.assemblyenjoyer1.insanecalculator.controllers;
 
+import com.assemblyenjoyer1.insanecalculator.models.User;
 import com.assemblyenjoyer1.insanecalculator.services.CalculatorService;
 import com.assemblyenjoyer1.insanecalculator.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/calculator")
@@ -15,12 +19,20 @@ public class CalculatorController {
     final private UserService userService;
 
     @PostMapping("/price/distance")
-    public double calculatePriceByDistance(@RequestParam int distance, @RequestParam int userID) {
-        return calculatorService.calculatePriceByDistance(distance, userService.getUserByUserID(userID));
+    public ResponseEntity<Double> calculatePriceByDistance(@RequestParam int distance, @RequestParam String userID) {
+        User user = userService.getUserByUserID(UUID.fromString(userID));
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        }
+        return calculatorService.calculatePriceByDistance(distance, user);
     }
 
     @PostMapping("/price/time")
-    public double calculatePriceByTime(@RequestParam int time, @RequestParam int userID) {
-        return calculatorService.calculatePriceByTime(time, userService.getUserByUserID(userID));
+    public ResponseEntity<Double> calculatePriceByTime(@RequestParam int time, @RequestParam String userID) {
+        User user = userService.getUserByUserID(UUID.fromString(userID));
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return calculatorService.calculatePriceByTime(time, user);
     }
 }

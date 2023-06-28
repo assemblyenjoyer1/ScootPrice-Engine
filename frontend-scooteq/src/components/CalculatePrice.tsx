@@ -57,12 +57,12 @@ const handleSubmit = async (event: React.FormEvent) => {
   console.log("entered handleSubmit");
   if (enteredUnit !== null && selectedUnit === 0) {
     console.log("entered if with time");
-    const url = `http://localhost:8080/api/calculator/price/time?time=${enteredUnit}&userID=1`;
+    const url = `http://localhost:8080/api/calculator/price/time?time=${enteredUnit}&userID=33333333-3333-3333-3333-333333333333`;
     await makePriceRequest(url);
   }
   if (enteredUnit !== null && selectedUnit === 1) {
     console.log("entered if with distance");
-    const url = `http://localhost:8080/api/calculator/price/distance?distance=${enteredUnit}&userID=1`;
+    const url = `http://localhost:8080/api/calculator/price/distance?distance=${enteredUnit}&userID=33333333-3333-3333-3333-333333333333`;
     await makePriceRequest(url);
   }
 };

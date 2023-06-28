@@ -9,19 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "customers")
 public class User {
     @Id
     UUID uuid;
     String name;
+    String email;
+    String password; // New column for password
     Role role;
     @OneToMany
     @JoinColumn(name = "user_id")
     List<Ride> rides;
 
-    public User(String name){
+    public User(String name, String email, String password){
         this.uuid = UUID.randomUUID();
         this.name = name;
+        this.email = email;
+        this.password = password;
         this.role = Role.USER;
         this.rides = new ArrayList<>();
     }
@@ -52,6 +56,10 @@ public class User {
 
     public void addRide(Ride ride) {
         this.rides.add(ride);
+    }
+
+    public boolean validatePassword(String password){
+        return this.password.equals(password);
     }
 
 }
