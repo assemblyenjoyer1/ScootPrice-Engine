@@ -13,7 +13,7 @@ export default function CalculatePrice() {
                 <input
                     className="App-inputText"
                     type="text"
-                    pattern="[0-9]*"
+                    pattern="[0-9]*" //hi
                     inputMode="numeric"
                     placeholder={placeholder}
                     value={enteredUnit ?? ""}
