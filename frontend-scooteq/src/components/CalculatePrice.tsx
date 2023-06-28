@@ -12,14 +12,14 @@ export default function CalculatePrice() {
             <div>
                 <input
                     className="App-inputText"
-                    type="text" // Change input type to "text"
-                    pattern="[0-9]*" // Allow only numbers
-                    inputMode="numeric" // Show numeric keyboard on mobile devices
+                    type="text"
+                    pattern="[0-9]*"
+                    inputMode="numeric"
                     placeholder={placeholder}
                     value={enteredUnit ?? ""}
                     onChange={(event) => {
                         const input = event.target.value;
-                        const numbersOnly = input.replace(/\D/g, ""); // Remove non-digit characters
+                        const numbersOnly = input.replace(/\D/g, "");
                         setEnteredUnit(numbersOnly !== "" ? Number(numbersOnly) : null);
                     }}
                 />
