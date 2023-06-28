@@ -19,7 +19,9 @@ public class CalculatorController {
     final private UserService userService;
 
     @PostMapping("/price/distance")
-    public ResponseEntity<Double> calculatePriceByDistance(@RequestParam int distance, @RequestParam String userID) {
+    public ResponseEntity<Double> calculatePriceByDistance(@RequestBody CalculatePriceDTO calculatePriceDTO) {
+        String userID = calculatePriceDTO.getUserID();
+        int distance = calculatePriceDTO.getValue();
         User user = userService.getUserByUserID(UUID.fromString(userID));
         if (user == null){
             return ResponseEntity.notFound().build();
@@ -28,7 +30,9 @@ public class CalculatorController {
     }
 
     @PostMapping("/price/time")
-    public ResponseEntity<Double> calculatePriceByTime(@RequestParam int time, @RequestParam String userID) {
+    public ResponseEntity<Double> calculatePriceByTime(@RequestBody CalculatePriceDTO calculatePriceDTO) {
+        String userID = calculatePriceDTO.getUserID();
+        int time = calculatePriceDTO.getValue();
         User user = userService.getUserByUserID(UUID.fromString(userID));
         if (user == null) {
             return ResponseEntity.notFound().build();

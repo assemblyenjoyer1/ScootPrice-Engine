@@ -10,11 +10,18 @@ CREATE TABLE rides (
    price_paid DOUBLE PRECISION,
    user_id UUID REFERENCES customers(uuid)
 );
-INSERT INTO customers (uuid, name, role)
-VALUES
-    ('11111111-1111-1111-1111-111111111111', 'John Doe', 'Admin'),
-    ('22222222-2222-2222-2222-222222222222', 'Jane Smith', 'Customer'),
-    ('33333333-3333-3333-3333-333333333333', 'Bob Johnson', 'Customer');
+
+/*
+  INSERT INTO customers (role, uuid, name, email, password)
+
+  VALUES
+      (0, '11111111-1111-1111-1111-111111111111', 'John Doe', 'auerda@yahoo.de', '111'),
+      (1, '22222222-2222-2222-2222-222222222222', 'Jane Smith', 'julien@yahoo.de', '123'),
+      (2, '33333333-3333-3333-3333-333333333333', 'Bob Johnson', 'timo@yahoo.de', '222');
+
+
+ */
+
 INSERT INTO rides (id, distance_traveled, price_paid, user_id)
 VALUES
     ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 10.5, 25.0, '11111111-1111-1111-1111-111111111111'),
