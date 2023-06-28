@@ -20,7 +20,7 @@ public class UserController {
     public ResponseEntity<User> validateCredentials(@RequestBody UserDTO userDTO){
         String email = userDTO.getEmail();
         String password = userDTO.getPassword();
-        User user = userService.validateUserCredentials(email, password);
-        return ResponseEntity.ok().body(user);
+        ResponseEntity<User> user = userService.validateUserCredentials(email, password);
+        return user;
     }
 }

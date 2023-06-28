@@ -5,6 +5,7 @@ import com.assemblyenjoyer1.insanecalculator.models.Role;
 import com.assemblyenjoyer1.insanecalculator.models.User;
 import com.assemblyenjoyer1.insanecalculator.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,8 +26,12 @@ public class UserService {
         return userRepository.findByUuid(id).get();
     }
 
-    public User validateUserCredentials(String email, String password){
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<User> validateUserCredentials(String email, String password){
+        User user = userRepository.findByEmail(email).get();
+        if (user.validatePassword(password)) {
+            return ResponseEntity.ok().body(user);
+        }
+        return ResponseEntity.status(401).body(null);
     }
 
 
