@@ -10,6 +10,7 @@ type LoginProps = {
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,8 +42,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           onLogin(true);
           navigate('/');
         }
+        else if (response.status === 500) {
+          setErrorMessage('Wrong email and/or password!');
+        }
       } catch (error) {
-        console.error("Error while calculating: ", error);
+        console.error("Error during login: ", error);
       }
     }
   };
@@ -65,6 +69,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }} />
       </div>
       <h2>Login</h2>
+      {errorMessage && <div className="App-error-message">{errorMessage}</div>}
       <form onSubmit={handleSubmit}>
         <label>
           <input className="App-inputText" type="email" placeholder="Email" value={email} onChange={handleEmailChange} />

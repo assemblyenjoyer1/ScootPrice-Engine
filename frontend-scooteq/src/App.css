@@ -104,6 +104,11 @@
 
 }
 
+.App-error-message {
+  color: #f10a0a;
+  margin-bottom: 10px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
