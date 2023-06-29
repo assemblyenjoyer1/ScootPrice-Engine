@@ -37,6 +37,10 @@ export default function CalculatePrice() {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        value: enteredUnit,
+        userID: '33333333-3333-3333-3333-333333333333',
+    }),
     });
     if (response.ok) {
       const data = await response.json();
@@ -55,11 +59,11 @@ export default function CalculatePrice() {
 const handleSubmit = async (event: React.FormEvent) => {
   event.preventDefault();
   if (enteredUnit !== null && selectedUnit === 0) {
-    const url = `http://localhost:8080/api/calculator/price/time?time=${enteredUnit}&userID=33333333-3333-3333-3333-333333333333`;
+    const url = `http://localhost:8080/api/calculator/price/time`;
     await makePriceRequest(url);
   }
   if (enteredUnit !== null && selectedUnit === 1) {
-    const url = `http://localhost:8080/api/calculator/price/distance?distance=${enteredUnit}&userID=33333333-3333-3333-3333-333333333333`;
+    const url = `http://localhost:8080/api/calculator/price/distance`;
     await makePriceRequest(url);
   }
 };

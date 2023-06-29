@@ -1,4 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
 
 type LoginProps = {
   onLogin: (loggedIn: boolean) => void;
@@ -7,6 +10,8 @@ type LoginProps = {
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -26,18 +31,27 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          // body: JSON.stringify({ email, password }), // Add the necessary request body if required
+          body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    }),
         });
         if (response.ok) {
           const data = await response.json();
           console.log("User:", data);
           onLogin(true);
+          navigate('/');
+        }
+        else if (response.status === 500) {
+          setErrorMessage('Wrong email and/or password!');
         }
       } catch (error) {
-        console.error("Error while calculating: ", error);
+        console.error("Error during login: ", error);
       }
     }
   };
+
+
 
   useEffect(() => {
     const storedLoggedIn = localStorage.getItem('loggedIn');
@@ -55,6 +69,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }} />
       </div>
       <h2>Login</h2>
+      {errorMessage && <div className="App-error-message">{errorMessage}</div>}
       <form onSubmit={handleSubmit}>
         <label>
           <input className="App-inputText" type="email" placeholder="Email" value={email} onChange={handleEmailChange} />
