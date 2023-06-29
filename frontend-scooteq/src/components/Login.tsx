@@ -26,7 +26,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          // body: JSON.stringify({ email, password }), // Add the necessary request body if required
+          body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    }),
         });
         if (response.ok) {
           const data = await response.json();
