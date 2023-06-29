@@ -87,7 +87,7 @@ const handleSubmit = async (event: React.FormEvent) => {
                 <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }}/>
             </div>
                 <h2 className="App-subtitle">Calculate the price</h2>
-                {price ? (                              //when the price is calculated...
+                {price !== null ? (                              //when the price is calculated...
                     <div style={{marginTop: '30px'}}>
                         <h2 className="App-text">Calculated Price</h2>
                         <h1>{price.toFixed(2)}€</h1>
