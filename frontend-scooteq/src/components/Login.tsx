@@ -1,4 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
 
 type LoginProps = {
   onLogin: (loggedIn: boolean) => void;
@@ -7,6 +10,7 @@ type LoginProps = {
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -35,12 +39,15 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           const data = await response.json();
           console.log("User:", data);
           onLogin(true);
+          navigate('/');
         }
       } catch (error) {
         console.error("Error while calculating: ", error);
       }
     }
   };
+
+
 
   useEffect(() => {
     const storedLoggedIn = localStorage.getItem('loggedIn');
