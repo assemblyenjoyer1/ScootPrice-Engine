@@ -109,6 +109,15 @@
   margin-bottom: 10px;
 }
 
+.App-logout-link {
+  position: fixed;
+  left: 15px;
+  bottom: 15px;
+  padding: 5px;
+  color: #20252A;
+  text-decoration: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

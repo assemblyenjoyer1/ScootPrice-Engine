@@ -25,11 +25,17 @@ export default function ChooseAction() {
         }
       }, []);
 
+      const handleLogout = () => {
+        localStorage.clear();
+        setUser(undefined);
+      };
+
     return (
         <div className="App">
             <div className="App-title">
             <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }}/>
             </div>
+
             {user && (
           <h1>Welcome {user.name}</h1>
       )}
@@ -37,6 +43,9 @@ export default function ChooseAction() {
             <a href="/prices">
                 <button className="App-button">Prices</button>
             </a>
+            <a href="/login" onClick={handleLogout} className="App-logout-link">
+            Logout
+          </a>
         </div>
     );
 }

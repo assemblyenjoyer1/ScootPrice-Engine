@@ -89,6 +89,11 @@ const handleSubmit = async (event: React.FormEvent) => {
   }
 };
 
+const handleLogout = () => {
+  localStorage.clear();
+  setUser(undefined);
+};
+
         return (
             <div className="App">
             <a href="/">
@@ -132,6 +137,9 @@ const handleSubmit = async (event: React.FormEvent) => {
                     </form>
                 )}
                 {errorMessage && <p>{errorMessage}</p>}
+                <a href="/login" onClick={handleLogout} className="App-logout-link">
+            Logout
+          </a>
             </div>
         )
     }
