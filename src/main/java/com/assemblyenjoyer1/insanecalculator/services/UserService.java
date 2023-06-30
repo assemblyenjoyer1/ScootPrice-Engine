@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,8 +28,10 @@ public class UserService {
     }
 
     public ResponseEntity<User> validateUserCredentials(String email, String password){
-        User user = userRepository.findByEmail(email).get();
-        if(user == null){
+        User user;
+        try{
+            user = userRepository.findByEmail(email).get();
+        }catch(NoSuchElementException e){
             return ResponseEntity.status(401).body(null);
         }
         if (user.validatePassword(password)) {
@@ -36,6 +39,5 @@ public class UserService {
         }
         return ResponseEntity.status(401).body(null);
     }
-
 
 }
