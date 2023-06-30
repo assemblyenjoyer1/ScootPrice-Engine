@@ -9,7 +9,6 @@ function App() {
   document.title = 'ScooTeq';
 
   const [loggedIn, setLoggedIn] = useState(() => {
-    // Get the stored value from local storage, or default to false if not present
     const storedLoggedIn = localStorage.getItem('loggedIn');
     return storedLoggedIn ? JSON.parse(storedLoggedIn) : false;
   });
@@ -18,11 +17,6 @@ function App() {
     setLoggedIn(loggedIn);
     localStorage.setItem('loggedIn', JSON.stringify(loggedIn));
   };
-  
-
-  useEffect(() => {
-    localStorage.setItem('loggedIn', JSON.stringify(true)); // Set the initial value to true
-  }, []);
 
   return (
     <BrowserRouter>
