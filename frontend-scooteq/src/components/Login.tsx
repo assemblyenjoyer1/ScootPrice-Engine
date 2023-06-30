@@ -36,21 +36,22 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                         password: password,
                     }),
         });
-        if (response.ok) {
+        if (response.status ==  200) {
           const data = await response.json();
           console.log("User:", data);
+          localStorage.setItem('user', JSON.stringify(data));
           onLogin(true);
           navigate('/');
         }
-        else if (response.status === 500) {
+        else if (response.status === 401) {
           setErrorMessage('Wrong email and/or password!');
+          onLogin(false);
         }
       } catch (error) {
         console.error("Error during login: ", error);
       }
     }
   };
-
 
 
   useEffect(() => {

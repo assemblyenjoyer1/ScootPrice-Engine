@@ -1,4 +1,17 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+
+export interface Ride {
+  id: string;
+  distanceTraveled: number,
+  pricePaid: number;
+}
+
+export interface User {
+  uuid: string;
+  name: string;
+  role: string;
+  rides: Ride[];
+};
 
 export default function CalculatePrice() {
 
@@ -8,6 +21,7 @@ export default function CalculatePrice() {
     const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
     const [price, setPrice] = useState<number | null>(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const [user, setUser] = useState<User | undefined>(undefined);
     const renderInputForm = (placeholder: string) => (
         <div>
           <div>
@@ -28,6 +42,13 @@ export default function CalculatePrice() {
         </div>
       );
 
+      useEffect(() => {
+          const userData = localStorage.getItem('user');
+          if (userData) {
+              const parsedUser: User = JSON.parse(userData);
+            setUser(parsedUser);
+          }
+        }, []);
 
     //___SEND POST___
     const makePriceRequest = async (url: string) => {
@@ -39,7 +60,7 @@ export default function CalculatePrice() {
       },
       body: JSON.stringify({
         value: enteredUnit,
-        userID: '33333333-3333-3333-3333-333333333333',
+        userID: user?.uuid,
     }),
     });
     if (response.ok) {
