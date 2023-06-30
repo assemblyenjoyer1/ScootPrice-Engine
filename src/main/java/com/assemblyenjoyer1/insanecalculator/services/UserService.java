@@ -28,6 +28,9 @@ public class UserService {
 
     public ResponseEntity<User> validateUserCredentials(String email, String password){
         User user = userRepository.findByEmail(email).get();
+        if(user == null){
+            return ResponseEntity.status(401).body(null);
+        }
         if (user.validatePassword(password)) {
             return ResponseEntity.ok().body(user);
         }
