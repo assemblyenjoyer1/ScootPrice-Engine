@@ -15,9 +15,11 @@ CREATE TABLE rides (
   INSERT INTO customers (role, uuid, name, email, password)
 
   VALUES
-      (0, '11111111-1111-1111-1111-111111111111', 'John Doe', 'auerda@yahoo.de', '111'),
-      (1, '22222222-2222-2222-2222-222222222222', 'Jane Smith', 'julien@yahoo.de', '123'),
-      (2, '33333333-3333-3333-3333-333333333333', 'Bob Johnson', 'timo@yahoo.de', '222');
+      (0, '11111111-1111-1111-1111-111111111111', 'Daniel Auer', 'auerda@yahoo.de', '111'),
+      (1, '22222222-2222-2222-2222-222222222222', 'Julien Bedrich', 'julien@yahoo.de', '123'),
+      (1, '22222222-2222-2222-2222-222222222222', 'Holger Schmidt', 'holger@yahoo.de', '111'),
+      (1, '22222222-2222-2222-2222-222222222222', 'Niklas Ehrhardt', 'holger@yahoo.de', '111'),
+      (2, '33333333-3333-3333-3333-333333333333', 'Timo Reiss', 'timo@yahoo.de', '222');
 
 
  */

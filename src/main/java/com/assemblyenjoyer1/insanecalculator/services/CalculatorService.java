@@ -24,7 +24,6 @@ public class CalculatorService {
 
     private ResponseEntity<Double> calculatePrice(int distance, User user, double pricePerUnit) {
         Role role = user.getRole();
-        System.out.println(user.getRole());
         if (role.equals(Role.ADMIN)) return ResponseEntity.ok().body(0.00);
         double finalPrice;
         double discount = (role.equals(Role.PREMIUM)) ? 10 : 0;

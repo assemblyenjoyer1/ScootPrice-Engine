@@ -10,7 +10,6 @@ public class CalculatePriceDTO {
         this.userID = userID;
     }
 
-
     public int getValue() {
         return value;
     }
