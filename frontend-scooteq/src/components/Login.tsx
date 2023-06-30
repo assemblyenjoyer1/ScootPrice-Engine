@@ -43,7 +43,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           onLogin(true);
           navigate('/');
         }
-        else if (response.status === 401 || response.status === 500) {
+        else if (response.status === 401) {
           setErrorMessage('Wrong email and/or password!');
           onLogin(false);
         }
