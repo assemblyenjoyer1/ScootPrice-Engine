@@ -18,10 +18,17 @@ if docker ps -aqf "name=${container_name}" > /dev/null; then
         echo "Container '$container_name' is already running."
     else
         docker start "$container_name"
+        sleep 3
         echo "Container '$container_name' has been started."
     fi
 else
     echo "Container '$container_name' does not exist."
+    docker run --name scooteq -e POSTGRES_PASSWORD=123 -d -p 5432:5432  postgres:alpine
+    echo "Container '$container_name' is being build..."
+    sleep 5
+    echo "..."
+    sleep 5
+    echo "Container '$container_name' has been created"
 fi
 
 # add fresh db
