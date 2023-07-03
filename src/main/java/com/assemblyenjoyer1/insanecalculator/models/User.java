@@ -21,6 +21,26 @@ public class User {
     @JoinColumn(name = "user_id")
     List<Ride> rides;
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public User(String name, String email, String password){
         this.uuid = UUID.randomUUID();
         this.name = name;
