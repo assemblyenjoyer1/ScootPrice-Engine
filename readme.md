@@ -1,8 +1,12 @@
-++++++ Using the script +++++++
+## Using the script
 
 Before running the script, ensure that:
-	+ no processes are accessing the database
-	+ the app is not running
-	+ Docker deamon is running
 
-After using the app: Make sure to kill the database container, backend, and frontend processes.
+- No processes are accessing the database.
+- The application is not running.
+- The Docker daemon is running.
+
+After using the app, make sure to:
+
+- Kill the database container.
+- Stop the backend and frontend processes.
