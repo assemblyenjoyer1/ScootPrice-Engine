@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class UserController {
 
-
     final private UserService userService;
 
     @PostMapping("/validate")
