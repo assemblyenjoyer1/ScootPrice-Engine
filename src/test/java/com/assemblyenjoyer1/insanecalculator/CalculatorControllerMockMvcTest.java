@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -53,7 +55,7 @@ public class CalculatorControllerMockMvcTest {
         user.setUuid(UUID.fromString(calculatePriceDTO.getUserID()));
 
         when(userService.getUserByUserID(UUID.fromString(calculatePriceDTO.getUserID()))).thenReturn(user);
-        when(calculatorService.calculatePriceByDistance(anyInt(), org.mockito.ArgumentMatchers.eq(user)))
+        when(calculatorService.calculatePriceByDistance(anyInt(), eq(user)))
                 .thenReturn(ResponseEntity.ok(expectedPrice));
 
         mockMvc.perform(post("/api/calculator/price/distance")
@@ -75,7 +77,7 @@ public class CalculatorControllerMockMvcTest {
         user.setUuid(UUID.fromString(calculatePriceDTO.getUserID()));
 
         when(userService.getUserByUserID(UUID.fromString(calculatePriceDTO.getUserID()))).thenReturn(user);
-        when(calculatorService.calculatePriceByTime(anyInt(), org.mockito.ArgumentMatchers.eq(user)))
+        when(calculatorService.calculatePriceByTime(anyInt(), eq(user)))
                 .thenReturn(ResponseEntity.ok(expectedPrice));
 
         mockMvc.perform(post("/api/calculator/price/time")
@@ -103,9 +105,7 @@ public class CalculatorControllerMockMvcTest {
 
     @Test
     void calculatePriceByTime_WithInvalidUser_ShouldReturnNotFound() throws Exception {
-        CalculatePriceDTO calculatePriceDTO = new CalculatePriceDTO();
-        calculatePriceDTO.setUserID("67b68b3c-efaf-4c3d-998e-6f0710b68231");
-        calculatePriceDTO.setValue(10);
+        CalculatePriceDTO calculatePriceDTO = new CalculatePriceDTO(10, "67b68b3c-efaf-4c3d-998e-6f0710b68231");
 
         when(userService.getUserByUserID(UUID.fromString("67b68b3c-efaf-4c3d-998e-6f0710b68231"))).thenReturn(null);
 
