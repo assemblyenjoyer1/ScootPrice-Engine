@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "Starting the ScooTeq script..."
 
 # check if Docker Daemon is running
@@ -10,9 +9,11 @@ else
     echo "Docker daemon is not running."
 fi
 
-# check if container exists
 container_name="scooteq"
-if docker ps -aqf "name=${container_name}" > /dev/null; then
+
+# Check if container exists
+container_id=$(docker ps -aqf "name=${container_name}")
+if [[ -n "$container_id" ]]; then
         # Check if container is running
     if docker ps | grep -q "$container_name"; then
         echo "Container '$container_name' is already running."
@@ -25,9 +26,9 @@ else
     echo "Container '$container_name' does not exist."
     docker run --name scooteq -e POSTGRES_PASSWORD=123 -d -p 5432:5432  postgres:alpine
     echo "Container '$container_name' is being build..."
-    sleep 5
+    sleep 10
     echo "..."
-    sleep 5
+    sleep 10
     echo "Container '$container_name' has been created"
 fi
 
@@ -37,8 +38,8 @@ docker exec -it "$container_name" psql -U postgres -c "CREATE DATABASE $containe
 
 # build jar file and execute
 ./gradlew build
-nohup java -jar build/libs/InsaneCalculator-1.0.jar > /dev/null 2>&1 &
 echo "Starting backend..."
+nohup java -jar build/libs/InsaneCalculator-1.0.jar > /dev/null 2>&1 &
 sleep 3
 echo "..."
 sleep 3
@@ -50,9 +51,13 @@ docker cp src/main/resources/static/sampledata.sql scooteq:/tmp/sampledata.sql
 docker exec -it "$container_name" psql -U postgres -d "$container_name" -f /tmp/sampledata.sql
 
 # start frontend
+echo "Starting frontend..."
 cd frontend-scooteq
 npm start >/dev/null 2>&1 &
 cd ..
+sleep 2
+echo "Frontend started! Visit http://localhost:3000/login"
+open 'http://localhost:3000/login'
 
 
 echo "Finished the ScooTeq script"
