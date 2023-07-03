@@ -42,8 +42,11 @@ public class UserService {
 
     public ResponseEntity<User> registerUser(String email, String name, String password) {
         if(email == null | name == null | password == null) return ResponseEntity.badRequest().body(null);
-        User user = new User(name,email,password);
-        userRepository.save(user);
-        return ResponseEntity.ok().body(user);
+        if(userRepository.findByEmail(email).isEmpty()){
+            User user = new User(name,email,password);
+            userRepository.save(user);
+            return ResponseEntity.ok().body(user);
+        }
+        return ResponseEntity.status(409).body(null);
     }
 }
