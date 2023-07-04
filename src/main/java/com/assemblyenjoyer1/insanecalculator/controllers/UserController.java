@@ -1,5 +1,6 @@
 package com.assemblyenjoyer1.insanecalculator.controllers;
 
+import com.assemblyenjoyer1.insanecalculator.models.RegisterUserDTO;
 import com.assemblyenjoyer1.insanecalculator.models.User;
 import com.assemblyenjoyer1.insanecalculator.models.UserDTO;
 import com.assemblyenjoyer1.insanecalculator.services.UserService;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class UserController {
 
-
     final private UserService userService;
 
     @PostMapping("/validate")
@@ -21,6 +21,15 @@ public class UserController {
         String email = userDTO.getEmail();
         String password = userDTO.getPassword();
         ResponseEntity<User> user = userService.validateUserCredentials(email, password);
+        return user;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody RegisterUserDTO userDTO){
+        String email = userDTO.getEmail();
+        String name = userDTO.getName();
+        String password = userDTO.getPassword();
+        ResponseEntity<User> user = userService.registerUser(email, name, password);
         return user;
     }
 }
