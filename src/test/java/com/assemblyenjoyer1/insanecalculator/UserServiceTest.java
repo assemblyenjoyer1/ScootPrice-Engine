@@ -101,4 +101,37 @@ public class UserServiceTest {
         assertEquals(resultingUser, user);
     }
 
+    @Test
+    void registerUser_ValidInput_ShouldReturnOk() {
+        // Arrange
+        String email = "test@example.com";
+        String name = "John Doe";
+        String password = "password";
+        User user = new User(name, email, password);
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<User> response = userService.registerUser(email, name, password);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void registerUser_DuplicateEmail_ShouldReturnConflict() {
+        // Arrange
+        String email = "test@example.com";
+        String name = "John Doe";
+        String password = "password";
+        User existingUser = new User(name, email, password);
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(existingUser));
+
+        // Act
+        ResponseEntity<User> response = userService.registerUser(email, name, password);
+
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
 }
