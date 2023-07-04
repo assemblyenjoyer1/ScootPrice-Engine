@@ -6,14 +6,14 @@
 
 ### Before running the script, ensure that:
 
-- no processes are accessing the database.
-- the application is not running.
-- the Docker Daemon is running.
+- no processes are accessing the database
+- the application is not running
+- the Docker Daemon is running
 
 ### After using the app, make sure to:
 
-- stop the database container.
-- kill the backend and frontend processes.
+- stop the database container
+- kill the backend and frontend processes
 
 ### or
 
