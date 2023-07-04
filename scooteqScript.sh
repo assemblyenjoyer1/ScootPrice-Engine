@@ -23,8 +23,8 @@ if [[ -n "$container_id" ]]; then
   fi
 else
   echo "Container '$container_name' does not exist."
-  docker run --name scooteq -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:alpine
   echo "Container '$container_name' is being build..."
+  docker run --name scooteq -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:alpine
   sleep 10
   echo "..."
   sleep 10
@@ -45,6 +45,7 @@ sleep 3
 echo "Backend started!"
 
 # add sample data
+echo "Adding sample data to the database..."
 docker cp src/main/resources/static/sampledata.sql scooteq:/tmp/sampledata.sql
 docker exec -it "$container_name" psql -U postgres -d "$container_name" -f /tmp/sampledata.sql
 
@@ -55,7 +56,7 @@ npm start >/dev/null 2>&1 &
 cd ..
 sleep 2
 echo "Frontend started! Visit http://localhost:3000/login"
-sleep 2
+sleep 3
 open 'http://localhost:3000/login'
 
 echo "Finished the ScooTeq script"
