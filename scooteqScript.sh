@@ -55,6 +55,7 @@ npm start >/dev/null 2>&1 &
 cd ..
 sleep 2
 echo "Frontend started! Visit http://localhost:3000/login"
+sleep 2
 open 'http://localhost:3000/login'
 
 echo "Finished the ScooTeq script"
