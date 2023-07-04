@@ -4,6 +4,7 @@ import './App.css';
 import ChooseAction from './components/Home';
 import CalculatePrice from './components/CalculatePrice';
 import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   document.title = 'ScooTeq';
@@ -21,7 +22,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <>
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        </>
         {loggedIn ? (
           <>
             <Route path="/" element={<ChooseAction />} />
