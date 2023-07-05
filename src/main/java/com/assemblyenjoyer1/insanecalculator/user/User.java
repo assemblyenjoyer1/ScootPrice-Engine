@@ -67,6 +67,10 @@ public class User implements UserDetails {
         return this.userID;
     }
 
+    public void setUUID(UUID uuid){
+        this.userID = uuid;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
