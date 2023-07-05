@@ -1,7 +1,9 @@
 package com.assemblyenjoyer1.insanecalculator.controllers;
 
+import com.assemblyenjoyer1.insanecalculator.config.JwtService;
 import com.assemblyenjoyer1.insanecalculator.repository.UserRepository;
 import com.assemblyenjoyer1.insanecalculator.services.CalculatorService;
+import com.assemblyenjoyer1.insanecalculator.token.JwtTokenUtil;
 import com.assemblyenjoyer1.insanecalculator.user.User;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
@@ -20,34 +22,42 @@ import java.util.UUID;
 public class CalculatorController {
 
     final private CalculatorService calculatorService;
+
+    final private JwtTokenUtil jwtTokenUtil;
+
     final private UserRepository userRepository;
 
     @PostMapping("/price/distance")
     @PreAuthorize("hasAnyAuthority('admin:create', 'manager:create')")
     @Hidden
-    public ResponseEntity<Double> calculatePriceByDistance(@RequestBody CalculatePriceDTO calculatePriceDTO) {
-        String userID = calculatePriceDTO.getUserID();
-        int distance = calculatePriceDTO.getValue();
-        User user = userRepository.findByUserID(UUID.fromString(userID)).get();
-        if (user == null){
+    public ResponseEntity<Double> calculatePriceByDistance(@RequestHeader("Authorization") String token, @RequestParam int value) {
+        token = token.split(" ")[1].trim();
+        String email = jwtTokenUtil.extractEmailFromToken(token);
+        User user;
+        try{
+            user = userRepository.findByEmail(email).get();
+        }catch(NoSuchElementException e){
             return ResponseEntity.notFound().build();
         }
+        int distance = value;
+
         return calculatorService.calculatePriceByDistance(distance, user);
     }
 
     @PostMapping("/price/time")
     @PreAuthorize("hasAnyAuthority('admin:create', 'management:create')")
     @Hidden
-    public ResponseEntity<Double> calculatePriceByTime(@RequestBody CalculatePriceDTO calculatePriceDTO) {
-        String userID = calculatePriceDTO.getUserID();
-        int time = calculatePriceDTO.getValue();
+    public ResponseEntity<Double> calculatePriceByTime(@RequestHeader("Authorization") String token, @RequestParam int value ) {
+        token = token.split(" ")[1].trim();
+        String email = jwtTokenUtil.extractEmailFromToken(token);
         User user;
         try{
-            user = userRepository.findByUserID(UUID.fromString(userID)).get();
+            user = userRepository.findByEmail(email).get();
         }catch(NoSuchElementException e){
             return ResponseEntity.notFound().build();
         }
+        int distance = value;
 
-        return calculatorService.calculatePriceByTime(time, user);
+        return calculatorService.calculatePriceByDistance(distance, user);
     }
 }
