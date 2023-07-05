@@ -34,7 +34,14 @@ public enum Role {
                     MANAGER_DELETE,
                     MANAGER_CREATE
             )
+    ),
+
+    CUSTOMER(
+            Set.of(
+                    CUSTOMER_READ
+            )
     )
+
 
     ;
 
