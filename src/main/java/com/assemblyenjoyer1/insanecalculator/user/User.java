@@ -11,6 +11,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +36,8 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    private UUID userID;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -53,6 +57,14 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public void generateUUID(){
+        this.userID = UUID.randomUUID();
+    }
+
+    public UUID getUUID(){
+        return this.userID;
     }
 
     @Override

@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.UUID;
+
 import static com.assemblyenjoyer1.insanecalculator.user.Role.ADMIN;
 import static com.assemblyenjoyer1.insanecalculator.user.Role.MANAGER;
 
@@ -23,11 +25,12 @@ public class InsaneCalculatorApplication {
     ) {
         return args -> {
             var admin = RegisterRequest.builder()
-                    .firstname("Admin")
-                    .lastname("Admin")
-                    .email("admin@mail.com")
+                    .firstname("Daniel")
+                    .lastname("Auer")
+                    .email("auerda@yahoo.com")
                     .password("password")
                     .role(ADMIN)
+                    .userID(UUID.randomUUID())
                     .build();
             System.out.println("Admin token: " + service.register(admin).getAccessToken());
 
@@ -37,6 +40,7 @@ public class InsaneCalculatorApplication {
                     .email("manager@mail.com")
                     .password("password")
                     .role(MANAGER)
+                    .userID(UUID.randomUUID())
                     .build();
             System.out.println("Manager token: " + service.register(manager).getAccessToken());
 
