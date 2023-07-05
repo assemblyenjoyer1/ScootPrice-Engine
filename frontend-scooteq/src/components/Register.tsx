@@ -41,6 +41,12 @@ const Register: React.FC<RegisterFormProps> = () => {
   };
 
   return (
+    <div className="App">
+    <div className="App-title">
+      <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }} />
+    </div>
+    <h2>Register</h2>
+    {errorMessage && <div className="App-error-message">{errorMessage}</div>}
     <form>
       <input
       className="App-inputText"
@@ -49,6 +55,7 @@ const Register: React.FC<RegisterFormProps> = () => {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
       />
+      <br />
       <input
       className="App-inputText"
         type="text"
@@ -56,6 +63,7 @@ const Register: React.FC<RegisterFormProps> = () => {
         onChange={(e) => setName(e.target.value)}
         placeholder="Name"
       />
+      <br />
       <input
       className="App-inputText"
         type="password"
@@ -63,10 +71,12 @@ const Register: React.FC<RegisterFormProps> = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
+      <br />
       <button className="App-button" type="button" onClick={handleRegister}>
         Register
       </button>
     </form>
+    </div>
   );
 };
 
