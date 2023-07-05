@@ -1,6 +1,7 @@
 package com.assemblyenjoyer1.insanecalculator.controllers;
 
-import com.assemblyenjoyer1.insanecalculator.models.User;
+import com.assemblyenjoyer1.insanecalculator.user.User;
+import com.assemblyenjoyer1.insanecalculator.repository.UserRepository;
 import com.assemblyenjoyer1.insanecalculator.services.CalculatorService;
 import com.assemblyenjoyer1.insanecalculator.services.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -19,7 +22,7 @@ import java.util.UUID;
 public class CalculatorController {
 
     final private CalculatorService calculatorService;
-    final private UserService userService;
+    final private UserRepository userRepository;
 
     @PostMapping("/price/distance")
     @PreAuthorize("hasAuthority('admin:create')")
@@ -27,7 +30,7 @@ public class CalculatorController {
     public ResponseEntity<Double> calculatePriceByDistance(@RequestBody CalculatePriceDTO calculatePriceDTO) {
         String userID = calculatePriceDTO.getUserID();
         int distance = calculatePriceDTO.getValue();
-        User user = userService.getUserByUserID(UUID.fromString(userID));
+        User user = userRepository.findByUserID(UUID.fromString(userID)).get();
         if (user == null){
             return ResponseEntity.notFound().build();
         }
@@ -40,10 +43,13 @@ public class CalculatorController {
     public ResponseEntity<Double> calculatePriceByTime(@RequestBody CalculatePriceDTO calculatePriceDTO) {
         String userID = calculatePriceDTO.getUserID();
         int time = calculatePriceDTO.getValue();
-        User user = userService.getUserByUserID(UUID.fromString(userID));
-        if (user == null) {
+        User user;
+        try{
+            user = userRepository.findByUserID(UUID.fromString(userID)).get();
+        }catch(NoSuchElementException e){
             return ResponseEntity.notFound().build();
         }
+
         return calculatorService.calculatePriceByTime(time, user);
     }
 }
