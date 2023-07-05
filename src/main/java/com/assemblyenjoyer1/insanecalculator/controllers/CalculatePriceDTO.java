@@ -4,11 +4,9 @@ package com.assemblyenjoyer1.insanecalculator.controllers;
 public class CalculatePriceDTO {
 
     int value;
-    String userID;
-
-    public CalculatePriceDTO(int value, String userID) {
+    public CalculatePriceDTO(int value) {
         this.value = value;
-        this.userID = userID;
+
     }
 
     public CalculatePriceDTO() {
@@ -22,11 +20,4 @@ public class CalculatePriceDTO {
         this.value = value;
     }
 
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
 }
