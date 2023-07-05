@@ -62,7 +62,7 @@ public class SecurityConfiguration {
                 .logout((logout) ->
                         logout.deleteCookies("remove")
                                 .invalidateHttpSession(false)
-                                .logoutUrl("/api/v1/auth/logout")
+                                .logoutUrl("/api/auth/logout")
                                 .addLogoutHandler(logoutHandler)
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
 
