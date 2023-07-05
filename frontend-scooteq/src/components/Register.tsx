@@ -13,6 +13,7 @@ const Register: React.FC<RegisterFormProps> = () => {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
+    if (email !== '' && name !== '' && password !== '') {
     try {
         const response = await fetch(`http://localhost:8080/api/login/register`, {
             method: "POST",
@@ -35,9 +36,19 @@ const Register: React.FC<RegisterFormProps> = () => {
             console.log(error409)
             setErrorMessage(error409);
           }
+          else if (response.status === 422) {
+            const error422 = 'Invalid email format!'
+            console.log(error422)
+            setErrorMessage(error422);
+          }
     } catch (error) {
       console.error(error);
+      setErrorMessage("An error occurred!")
     }
+  }
+  else{
+    setErrorMessage("Fill out the form completely!")
+  }
   };
 
   return (
@@ -45,7 +56,7 @@ const Register: React.FC<RegisterFormProps> = () => {
     <div className="App-title">
       <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }} />
     </div>
-    <h2>Register</h2>
+    <h2>Register a new user:</h2>
     {errorMessage && <div className="App-error-message">{errorMessage}</div>}
     <form>
       <input
@@ -72,7 +83,7 @@ const Register: React.FC<RegisterFormProps> = () => {
         placeholder="Password"
       />
       <br />
-      <button className="App-button" type="button" onClick={handleRegister}>
+      <button className="App-button" type="button" onClick={handleRegister} >
         Register
       </button>
     </form>
