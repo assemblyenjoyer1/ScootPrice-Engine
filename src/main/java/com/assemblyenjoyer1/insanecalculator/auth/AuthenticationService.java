@@ -53,6 +53,10 @@ public class AuthenticationService {
                 .build();
     }
 
+    public boolean checkIfEmailExists(RegisterRequest request){
+        return repository.findByEmail(request.getEmail()).isPresent();
+    }
+
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

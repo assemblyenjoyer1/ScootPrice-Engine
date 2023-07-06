@@ -20,6 +20,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
+        if(service.checkIfEmailExists(request)) return ResponseEntity.status(409).body(null);
         return ResponseEntity.ok(service.register(request));
     }
     @PostMapping("/authenticate")
