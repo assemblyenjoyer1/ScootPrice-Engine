@@ -25,13 +25,15 @@ public class CalculatorController {
 
     final private JwtTokenUtil jwtTokenUtil;
 
+    final private JwtService jwtService;
+
     final private UserRepository userRepository;
 
     @PostMapping("/price/distance")
     @PreAuthorize("hasAnyAuthority('admin:create', 'manager:create')")
     @Hidden
     public ResponseEntity<Double> calculatePriceByDistance(@RequestHeader("Authorization") String token, @RequestParam int value) {
-        token = token.split(" ")[1].trim();
+        token = token.split(" ")[1].trim().replace("\"", "");
         String email = jwtTokenUtil.extractEmailFromToken(token);
         User user;
         try{
