@@ -43,6 +43,9 @@ export default function ChooseAction() {
             <a href="/prices">
                 <button className="App-button">Prices</button>
             </a>
+            <a href="/history">
+                <button className="App-button">History</button>
+            </a>
             <a href="/login" onClick={handleLogout} className="App-logout-link">
             Logout
           </a>

@@ -53,6 +53,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
+  const handleRegister = () => {
+    navigate('/register');
+  };
 
   useEffect(() => {
     const storedLoggedIn = localStorage.getItem('loggedIn');
@@ -81,6 +84,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         </label>
         <br />
         <button className="App-button" type="submit">Login</button>
+        <br /><br /><br />
+        <button className="App-button" onClick={handleRegister} style={{position: 'fixed', left: '15px', bottom: '15px'}}>Register</button>
       </form>
     </div>
   );
