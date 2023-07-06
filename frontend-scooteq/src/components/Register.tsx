@@ -7,23 +7,25 @@ interface RegisterFormProps {
 
 const Register: React.FC<RegisterFormProps> = () => {
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    if (email !== '' && name !== '' && password !== '') {
+    if (email !== '' && lastName !== ''&& firstName !== '' && password !== '') {
     try {
-        const response = await fetch(`http://localhost:8080/api/login/register`, {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/register`, {
             method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
                         email: email,
-                        name: password,
-                        password: password
+                        firstname: firstName,
+                        lastname: lastName,
+                        password: password,
                     }),
         });
         if (response.status ==  200) {
@@ -70,9 +72,17 @@ const Register: React.FC<RegisterFormProps> = () => {
       <input
       className="App-inputText"
         type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        placeholder="First name"
+      />
+      <br />
+      <input
+          className="App-inputText"
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last name"
       />
       <br />
       <input

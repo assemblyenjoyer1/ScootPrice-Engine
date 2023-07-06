@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-type LoginProps = {
-  onLogin: (loggedIn: boolean) => void;
-};
-
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC = ({ }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -26,7 +22,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     console.log("sending");
     if (email !== '' && password !== '') {
       try {
-        const response = await fetch(`http://localhost:8080/api/login/validate`, {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/authenticate`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -38,14 +34,15 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         });
         if (response.status ==  200) {
           const data = await response.json();
-          console.log("User:", data);
-          localStorage.setItem('user', JSON.stringify(data));
-          onLogin(true);
+          console.log("TOKEN:", data);
+          const { access_token, refresh_token } = data;
+          console.log("Access Token:", access_token);
+          //localStorage.setItem('user', JSON.stringify(data));
+          localStorage.setItem('access_token', JSON.stringify(access_token));
           navigate('/');
         }
         else if (response.status === 401) {
           setErrorMessage('Wrong email and/or password!');
-          onLogin(false);
         }
       } catch (error) {
         console.error("Error during login: ", error);
@@ -56,16 +53,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleRegister = () => {
     navigate('/register');
   };
-
-  useEffect(() => {
-    const storedLoggedIn = localStorage.getItem('loggedIn');
-    const parsedLoggedIn = storedLoggedIn ? JSON.parse(storedLoggedIn) : false;
-    onLogin(parsedLoggedIn);
-  }, [onLogin]);
-
-  useEffect(() => {
-    localStorage.setItem('loggedIn', JSON.stringify(false));
-  }, []);
 
   return (
     <div className="App">
