@@ -50,11 +50,4 @@ public class AuthenticationController {
       return ResponseEntity.ok(jwtService.validateToken(token));
     }
 
-    @GetMapping("/user-by-token")
-    public ResponseEntity<User> getUserByToken(
-            @RequestParam String token
-    ){
-        return jwtService.getUserByToken(token);
-    }
-
 }
