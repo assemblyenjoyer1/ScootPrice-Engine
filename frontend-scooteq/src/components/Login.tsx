@@ -37,8 +37,9 @@ const Login: React.FC = ({ }) => {
           console.log("TOKEN:", data);
           const { access_token, refresh_token } = data;
           console.log("Access Token:", access_token);
-          //localStorage.setItem('user', JSON.stringify(data));
           localStorage.setItem('access_token', JSON.stringify(access_token));
+          localStorage.setItem('refresh_token', JSON.stringify(refresh_token));
+          localStorage.setItem('user', JSON.stringify(data));
           navigate('/');
         }
         else if (response.status === 401) {

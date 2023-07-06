@@ -1,34 +1,59 @@
 import React, {useState, useEffect} from "react";
-
-interface Ride {
-    id: string;
-    distanceTraveled: number,
-    pricePaid: number;
-  }
-  
-interface User {
-    uuid: string;
-    name: string;
-    role: string;
-    rides: Ride[];
-  };
+import {useNavigate} from "react-router-dom";
 
 
 export default function History() {
-    const [user, setUser] = useState<User | undefined>(undefined);
+    const [firstName, setFirstName] = useState<string | null>(null);
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
         if (userData) {
-            const parsedUser: User = JSON.parse(userData);
-          setUser(parsedUser);
-          console.log("User: "+user?.rides);
+            setFirstName(userData);
         }
-      }, []);
+        validateToken()
+    }, []);
+
+    const validateToken = () => {
+        const token = localStorage.getItem('access_token')
+        if (token === null) {
+            setLoggedIn(false)
+            console.log("TOKEN IS NULL")
+            navigate("/login");
+        } else {
+            const formattedToken = token.replace(/^"(.*)"$/, '$1');
+            handleAuthentication(formattedToken)
+        }
+    };
+
+    const handleAuthentication = async (token: string) => {
+        try {
+            const response = await fetch("http://localhost:8080/api/v1/auth/validate-token?token=" + token, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.status == 200) {
+                const data = await response.json();
+                console.log("USER IS LOGGED IN: " + data);
+                setLoggedIn(data)
+                if (!data) {
+                    navigate("/login");
+                }
+            }
+            else {
+                console.log("COULD NOT FETCH USER: " + response.status)
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+        }
+    };
+
 
     const handleLogout = () => {
         localStorage.clear();
-        setUser(undefined);
       };
 
       /*useEffect(() => {
@@ -44,7 +69,7 @@ export default function History() {
     */
 
 
-    return (
+    /*return (
         <div className="App">
         <a href="/">
         <img
@@ -86,4 +111,31 @@ export default function History() {
       </table>
         </div>
     )
+
+     */
+    return (
+        <div className="App">
+            <a href="/">
+                <img
+                    src={require("./scooteq_mini.png")}
+                    alt="Home"
+                    style={{
+                        width: "30px",
+                        height: "30px",
+                        position: "absolute",
+                        top: "10px",
+                        left: "10px",
+                    }}
+                />
+            </a>
+            <div className="App-title">
+                <img src={require("./scooteq.png")} alt="png" style={{ height: '300px', width: 'auto', maxWidth: '100%' }} />
+            </div>
+            <h2 className="App-subtitle" style={{ marginTop: '40px' }}>{firstName}'s Ride History</h2>
+            <a className="App-text">(to be implemented)</a>
+            <a href="/login" onClick={handleLogout} className="App-logout-link">
+                Logout
+            </a>
+            </div>
+            )
 }

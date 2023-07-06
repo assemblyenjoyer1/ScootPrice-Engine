@@ -10,6 +10,7 @@ import History from './components/History';
 function App() {
     document.title = 'ScooTeq';
 
+
     return (
         <BrowserRouter>
             <Routes>

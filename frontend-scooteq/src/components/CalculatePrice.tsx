@@ -1,17 +1,5 @@
 import React, {useState, useEffect} from "react";
-
-export interface Ride {
-    id: string;
-    distanceTraveled: number,
-    pricePaid: number;
-}
-
-export interface User {
-    uuid: string;
-    name: string;
-    role: string;
-    rides: Ride[];
-};
+import { useNavigate } from 'react-router-dom';
 
 export default function CalculatePrice() {
 
@@ -21,8 +9,9 @@ export default function CalculatePrice() {
     const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
     const [price, setPrice] = useState<number | null>(null);
     const [errorMessage, setErrorMessage] = useState("");
-    const [user, setUser] = useState<User | undefined>(undefined);
     const [token, setToken] = useState<string>("");
+    const navigate = useNavigate();
+
     const renderInputForm = (placeholder: string) => (
         <div>
             <div>
@@ -44,12 +33,39 @@ export default function CalculatePrice() {
     );
 
     useEffect(() => {
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            const parsedUser: User = JSON.parse(userData);
-            setUser(parsedUser);
-        }
+        validateToken()
     }, []);
+
+    const validateToken = () => {
+        const token = localStorage.getItem('access_token')
+        if (token === null) {
+            console.log("TOKEN IS NULL")
+            navigate("/login");
+        } else {
+            const formattedToken = token.replace(/^"(.*)"$/, '$1');
+            handleAuthentication(formattedToken)
+        }
+    };
+
+    const handleAuthentication = async (token: string) => {
+        try {
+            const response = await fetch("http://localhost:8080/api/v1/auth/validate-token?token=" + token, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.status == 200) {
+                const data = await response.json();
+                console.log("USER IS LOGGED IN: " + data);
+                if (!data){
+                    navigate("/login");
+                }
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+        }
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('access_token');
@@ -97,7 +113,6 @@ export default function CalculatePrice() {
 
     const handleLogout = () => {
         localStorage.clear();
-        setUser(undefined);
     };
 
     return (
