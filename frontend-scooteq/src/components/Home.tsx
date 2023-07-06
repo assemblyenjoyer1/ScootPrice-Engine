@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom';
 export default function ChooseAction() {
 
     const [firstName, setFirstName] = useState<string | undefined>(undefined);
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,7 +43,6 @@ export default function ChooseAction() {
     const validateToken = () => {
         const token = localStorage.getItem('access_token')
         if (token === null) {
-            setLoggedIn(false)
             console.log("TOKEN IS NULL")
             navigate("/login");
         } else {
@@ -64,7 +62,6 @@ export default function ChooseAction() {
             if (response.status == 200) {
                 const data = await response.json();
                 console.log("USER IS LOGGED IN: " + data);
-                setLoggedIn(data)
                 if (!data) {
                     navigate("/login");
                 }

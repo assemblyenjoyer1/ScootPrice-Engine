@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 
 export default function History() {
     const [firstName, setFirstName] = useState<string | null>(null);
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,7 +17,6 @@ export default function History() {
     const validateToken = () => {
         const token = localStorage.getItem('access_token')
         if (token === null) {
-            setLoggedIn(false)
             console.log("TOKEN IS NULL")
             navigate("/login");
         } else {
@@ -38,7 +36,6 @@ export default function History() {
             if (response.status == 200) {
                 const data = await response.json();
                 console.log("USER IS LOGGED IN: " + data);
-                setLoggedIn(data)
                 if (!data) {
                     navigate("/login");
                 }
