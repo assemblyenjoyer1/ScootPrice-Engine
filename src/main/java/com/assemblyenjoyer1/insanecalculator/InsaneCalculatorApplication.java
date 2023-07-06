@@ -43,6 +43,7 @@ public class InsaneCalculatorApplication {
                     .userID(UUID.randomUUID())
                     .build();
             System.out.println("Manager token: " + service.register(manager).getAccessToken());
+
         };
     }
 
