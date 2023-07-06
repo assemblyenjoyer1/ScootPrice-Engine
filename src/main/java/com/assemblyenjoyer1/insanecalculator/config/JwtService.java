@@ -1,7 +1,6 @@
 package com.assemblyenjoyer1.insanecalculator.config;
 
 import com.assemblyenjoyer1.insanecalculator.repository.UserRepository;
-import com.assemblyenjoyer1.insanecalculator.token.JwtTokenUtil;
 import com.assemblyenjoyer1.insanecalculator.token.TokenRepository;
 import com.assemblyenjoyer1.insanecalculator.user.User;
 import io.jsonwebtoken.Claims;
@@ -34,8 +33,6 @@ public class JwtService {
     private long refreshExpiration;
 
     private final TokenRepository tokenRepository;
-
-    private final UserRepository userRepository;
 
     public boolean validateToken(String token){
         return tokenRepository.findByToken(token).isPresent();
@@ -107,16 +104,5 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    public ResponseEntity<User> getUserByToken(String token){
-        String email = extractClaim(token, Claims::getSubject);
-        User user;
-        try{
-            user = userRepository.findByEmail(email).get();
-        }catch(NoSuchElementException e){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(user);
     }
 }

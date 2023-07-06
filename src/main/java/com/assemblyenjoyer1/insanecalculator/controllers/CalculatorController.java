@@ -61,4 +61,21 @@ public class CalculatorController {
 
         return calculatorService.calculatePriceByDistance(distance, user);
     }
+
+    @PostMapping("/user-by-token")
+    @PreAuthorize("hasAnyAuthority('admin:create', 'management:create')")
+    @Hidden
+    public ResponseEntity<User> calculatePriceByTime(@RequestParam String token) {
+        token = token.split(" ")[1].trim();
+        String email = jwtTokenUtil.extractEmailFromToken(token);
+        User user;
+        try{
+            user = userRepository.findByEmail(email).get();
+        }catch(NoSuchElementException e){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().body(user);
+    }
+
 }
