@@ -1,5 +1,6 @@
 package com.assemblyenjoyer1.insanecalculator.config;
 
+import com.assemblyenjoyer1.insanecalculator.token.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,11 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${application.security.jwt.secret-key}")
@@ -24,6 +27,12 @@ public class JwtService {
     private long jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
+
+    private final TokenRepository tokenRepository;
+
+    public boolean validateToken(String token){
+        return tokenRepository.findByToken(token).isPresent();
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

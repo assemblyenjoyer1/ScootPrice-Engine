@@ -1,5 +1,6 @@
 package com.assemblyenjoyer1.insanecalculator.auth;
 
+import com.assemblyenjoyer1.insanecalculator.config.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+
+    private final JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -38,5 +41,11 @@ public class AuthenticationController {
         service.refreshToken(request, response);
     }
 
+    @PostMapping("/validate-token")
+    public ResponseEntity<Boolean> validateToken(
+            @RequestParam String token
+    ){
+      return ResponseEntity.ok(jwtService.validateToken(token));
+    }
 
 }
