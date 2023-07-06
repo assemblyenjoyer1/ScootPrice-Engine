@@ -35,8 +35,6 @@ public class JwtService {
 
     private final TokenRepository tokenRepository;
 
-    private final JwtTokenUtil jwtTokenUtil;
-
     private final UserRepository userRepository;
 
     public boolean validateToken(String token){
@@ -112,7 +110,7 @@ public class JwtService {
     }
 
     public ResponseEntity<User> getUserByToken(String token){
-        String email = jwtTokenUtil.extractEmailFromToken(token);
+        String email = extractClaim(token, Claims::getSubject);
         User user;
         try{
             user = userRepository.findByEmail(email).get();
