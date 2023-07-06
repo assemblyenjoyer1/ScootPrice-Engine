@@ -1,14 +1,11 @@
 package com.assemblyenjoyer1.insanecalculator.user;
 
+import com.assemblyenjoyer1.insanecalculator.models.Ride;
 import com.assemblyenjoyer1.insanecalculator.user.Role;
 import com.assemblyenjoyer1.insanecalculator.token.Token;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +33,10 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private UUID userID;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Ride> rides = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -68,6 +69,18 @@ public class User implements UserDetails {
 
     public void setUUID(UUID uuid){
         this.userID = uuid;
+    }
+
+    public List<Ride> getRides() {
+        return rides;
+    }
+
+    public void setRides(List<Ride> rides) {
+        this.rides = rides;
+    }
+
+    public void addRide(Ride ride) {
+        this.rides.add(ride);
     }
 
     @Override

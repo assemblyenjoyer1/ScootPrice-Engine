@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @Entity(name = "customers")
 public class User {
+    /*
     @Id
     UUID uuid;
     String name;
@@ -81,4 +82,6 @@ public class User {
         return this.password.equals(password);
     }
 
+
+     */
 }
