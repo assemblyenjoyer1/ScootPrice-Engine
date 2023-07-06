@@ -5,6 +5,7 @@ import ChooseAction from './components/Home';
 import CalculatePrice from './components/CalculatePrice';
 import Login from './components/Login';
 import Register from './components/Register';
+import History from './components/History';
 
 function App() {
   document.title = 'ScooTeq';
@@ -30,11 +31,13 @@ function App() {
           <>
             <Route path="/" element={<ChooseAction />} />
             <Route path="/prices" element={<CalculatePrice />} />
+            <Route path="/history" element={<History />} />
           </>
         ) : (
           <>
             <Route path="/" element={<a href="/login">Go to Login</a>} />
             <Route path="/prices" element={<a href="/login">Go to Login</a>} />
+            <Route path="/history" element={<a href="/login">Go to Login</a>} />
           </>
         )}
       </Routes>
