@@ -65,7 +65,7 @@ public class CalculatorController {
     @PostMapping("/user-by-token")
     @PreAuthorize("hasAnyAuthority('admin:create', 'management:create')")
     @Hidden
-    public ResponseEntity<User> calculatePriceByTime(@RequestHeader String token) {
+    public ResponseEntity<String> calculatePriceByTime(@RequestHeader("Authorization") String token) {
         token = token.split(" ")[1].trim();
         String email = jwtTokenUtil.extractEmailFromToken(token);
         User user;
@@ -75,7 +75,7 @@ public class CalculatorController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(user.getFirstname());
     }
 
 }
