@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
+import {logout} from './Login';
 
 export default function CalculatePrice() {
 
@@ -111,10 +112,6 @@ export default function CalculatePrice() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.clear();
-    };
-
     return (
         <div className="App">
             <a href="/">
@@ -159,7 +156,7 @@ export default function CalculatePrice() {
                 </form>
             )}
             {errorMessage && <p>{errorMessage}</p>}
-            <a href="/login" onClick={handleLogout} className="App-logout-link">
+            <a href="/login" onClick={logout} className="App-logout-link">
                 Logout
             </a>
         </div>

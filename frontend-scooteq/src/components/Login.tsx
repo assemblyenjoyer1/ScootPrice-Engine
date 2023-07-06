@@ -2,6 +2,9 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
+export const logout = () => {
+  localStorage.clear();
+};
 
 const Login: React.FC = ({ }) => {
   const [email, setEmail] = useState('');

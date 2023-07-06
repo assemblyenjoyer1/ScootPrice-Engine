@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
+import {logout} from './Login';
 
 export default function ChooseAction() {
 
@@ -71,10 +72,6 @@ export default function ChooseAction() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.clear();
-    };
-
     return (
         <div className="App">
             <div className="App-title">
@@ -92,7 +89,7 @@ export default function ChooseAction() {
             <a href="/history">
                 <button className="App-button">History</button>
             </a>
-            <a href="/login" onClick={handleLogout} className="App-logout-link">
+            <a href="/login" onClick={logout} className="App-logout-link">
                 Logout
             </a>
         </div>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
+import {logout} from './Login';
 
 
 export default function History() {
@@ -47,11 +48,6 @@ export default function History() {
             console.error("Error: ", error);
         }
     };
-
-
-    const handleLogout = () => {
-        localStorage.clear();
-      };
 
       /*useEffect(() => {
         fetch('http://localhost:8080/api/')
@@ -130,7 +126,7 @@ export default function History() {
             </div>
             <h2 className="App-subtitle" style={{ marginTop: '40px' }}>{firstName}'s Ride History</h2>
             <a className="App-text">(to be implemented)</a>
-            <a href="/login" onClick={handleLogout} className="App-logout-link">
+            <a href="/login" onClick={logout} className="App-logout-link">
                 Logout
             </a>
             </div>
