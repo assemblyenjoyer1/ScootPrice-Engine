@@ -21,10 +21,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-<<<<<<< HEAD
 import java.util.UUID;
-=======
->>>>>>> caf7520a81a7c528fda99e2bf98eea71df62387d
 
 @Service
 @RequiredArgsConstructor
