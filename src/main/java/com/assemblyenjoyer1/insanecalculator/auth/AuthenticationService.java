@@ -6,6 +6,7 @@ import com.assemblyenjoyer1.insanecalculator.repository.UserRepository;
 import com.assemblyenjoyer1.insanecalculator.token.Token;
 import com.assemblyenjoyer1.insanecalculator.token.TokenRepository;
 import com.assemblyenjoyer1.insanecalculator.token.TokenType;
+import com.assemblyenjoyer1.insanecalculator.user.Role;
 import com.assemblyenjoyer1.insanecalculator.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        request.setRole(Role.MANAGER);
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())

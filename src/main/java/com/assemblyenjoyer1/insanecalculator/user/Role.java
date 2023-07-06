@@ -14,6 +14,7 @@ import static com.assemblyenjoyer1.insanecalculator.user.Permission.*;
 @RequiredArgsConstructor
 public enum Role {
 
+    //TODO: implement user/customer with proper permission
     USER(Collections.emptySet()),
     ADMIN(
             Set.of(

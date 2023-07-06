@@ -22,4 +22,10 @@ public class RegisterRequest {
     private Role role;
     private UUID userID;
 
+    public RegisterRequest(String firstname, String lastname, String email, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+    }
 }
