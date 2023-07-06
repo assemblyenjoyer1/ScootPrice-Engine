@@ -12,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/calculator")
@@ -30,10 +29,10 @@ public class CalculatorController {
     final private UserRepository userRepository;
 
     @PostMapping("/price/distance")
-    @PreAuthorize("hasAnyAuthority('admin:create', 'manager:create')")
+    @PreAuthorize("hasAnyAuthority('admin:create', 'management:create')")
     @Hidden
     public ResponseEntity<Double> calculatePriceByDistance(@RequestHeader("Authorization") String token, @RequestParam int value) {
-        token = token.split(" ")[1].trim().replace("\"", "");
+        token = token.split(" ")[1].trim();
         String email = jwtTokenUtil.extractEmailFromToken(token);
         User user;
         try{
