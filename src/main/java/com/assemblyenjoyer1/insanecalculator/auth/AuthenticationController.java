@@ -1,6 +1,8 @@
 package com.assemblyenjoyer1.insanecalculator.auth;
 
 import com.assemblyenjoyer1.insanecalculator.config.JwtService;
+import com.assemblyenjoyer1.insanecalculator.repository.UserRepository;
+import com.assemblyenjoyer1.insanecalculator.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +48,13 @@ public class AuthenticationController {
             @RequestParam String token
     ){
       return ResponseEntity.ok(jwtService.validateToken(token));
+    }
+
+    @GetMapping("/user-by-token")
+    public ResponseEntity<User> getUserByToken(
+            @RequestParam String token
+    ){
+        return jwtService.getUserByToken(token);
     }
 
 }

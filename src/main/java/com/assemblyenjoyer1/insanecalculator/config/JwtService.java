@@ -1,6 +1,9 @@
 package com.assemblyenjoyer1.insanecalculator.config;
 
+import com.assemblyenjoyer1.insanecalculator.repository.UserRepository;
+import com.assemblyenjoyer1.insanecalculator.token.JwtTokenUtil;
 import com.assemblyenjoyer1.insanecalculator.token.TokenRepository;
+import com.assemblyenjoyer1.insanecalculator.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,10 +13,12 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +34,10 @@ public class JwtService {
     private long refreshExpiration;
 
     private final TokenRepository tokenRepository;
+
+    private final JwtTokenUtil jwtTokenUtil;
+
+    private final UserRepository userRepository;
 
     public boolean validateToken(String token){
         return tokenRepository.findByToken(token).isPresent();
@@ -100,5 +109,16 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public ResponseEntity<User> getUserByToken(String token){
+        String email = jwtTokenUtil.extractEmailFromToken(token);
+        User user;
+        try{
+            user = userRepository.findByEmail(email).get();
+        }catch(NoSuchElementException e){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(user);
     }
 }
