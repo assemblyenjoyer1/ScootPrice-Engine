@@ -1,8 +1,8 @@
 package com.assemblyenjoyer1.insanecalculator.services;
 
 import com.assemblyenjoyer1.insanecalculator.models.Ride;
-import com.assemblyenjoyer1.insanecalculator.models.Role;
-import com.assemblyenjoyer1.insanecalculator.models.User;
+import com.assemblyenjoyer1.insanecalculator.user.Role;
+import com.assemblyenjoyer1.insanecalculator.user.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +22,9 @@ public class CalculatorService {
     private ResponseEntity<Double> calculatePrice(int distance, User user, double pricePerUnit) {
         Role role = user.getRole();
         if (role.equals(Role.ADMIN)) return ResponseEntity.ok().body(0.00);
-        double discount = (role.equals(Role.PREMIUM)) ? 10 : 0;
+        double discount = (role.equals(Role.MANAGER)) ? 10 : 0;
         double finalPrice = (distance * pricePerUnit) * (1 - (discount / 100));
-        addRide(user, distance, pricePerUnit);
+        //addRide(user, distance, pricePerUnit);
 
         return ResponseEntity.ok().body(finalPrice);
     }
@@ -33,8 +33,8 @@ public class CalculatorService {
         return calculatePrice(time, user, pricePerMinute);
     }
 
-    private void addRide(User user, double distance, double price){
-        Ride ride = new Ride(distance,price);
-        user.addRide(ride);
-    }
+    //private void addRide(User user, double distance, double price){
+    //    Ride ride = new Ride(distance,price);
+    //    user.addRide(ride);
+    //}
 }
