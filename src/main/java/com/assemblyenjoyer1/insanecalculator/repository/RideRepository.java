@@ -8,5 +8,8 @@ import java.util.Optional;
 
 public interface RideRepository extends JpaRepository<Ride, Integer> {
 
+    /*
     Optional<List<Ride>> findAllById(int userID);
+
+     */
 }
